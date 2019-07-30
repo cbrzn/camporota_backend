@@ -3,7 +3,6 @@ python:
   - "3.7.1"
 install:
   - pip install -r requirements.txt
+  
 # command to run tests
-before_script:
-  - python autoapp.py
 script: pytest
