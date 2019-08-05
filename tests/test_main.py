@@ -1,4 +1,5 @@
 import app
 
 def test_hello_world():
-    assert app.hello_world() == "We up"
+    test = app.create_app().test_client().get('/')
+    assert  b'We up' == test.data
