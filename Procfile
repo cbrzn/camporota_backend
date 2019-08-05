@@ -1,1 +1,1 @@
-backend: python main.py
+backend: gunicorn wsgi:app
