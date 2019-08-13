@@ -25,4 +25,6 @@ deploy:
     # push to dockerhub
     docker push cbrzn/camporota_backend;
     docker push registry.heroku.com/$HEROKU_APP_NAME/web;
-  branch: master
+    heroku container:release web --app $HEROKU_APP_NAME
+  on:
+    branch: master
