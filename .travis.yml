@@ -1,8 +1,22 @@
+sudo: required
 language: python
 python:
   - "3.7.1"
+services:
+  - docker
+before_install:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 install:
   - pip install -r requirements.txt
   
 # command to run tests
-script: pytest
+script: 
+  - pytest
+  - docker build -t cbrzn/camporota_backend .
+
+deploy:
+  provider: script
+  script:
+    # push to dockerhub
+    docker push cbrzn/camporota_backend;
+  branch: master
