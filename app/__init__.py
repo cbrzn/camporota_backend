@@ -6,7 +6,7 @@ def create_app():
     CORS(app)
     @app.route('/')
     def hello_world():
-        return "We up"
+        return "CI done"
 
     return app
 
