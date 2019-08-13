@@ -4,7 +4,7 @@ from flask_cors import CORS
 def create_app():
     app = Flask(__name__)
     CORS(app)
-    @app.route('/test')
+    @app.route('/')
     def hello_world():
         return "We up"
 
