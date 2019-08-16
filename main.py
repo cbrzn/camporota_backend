@@ -1,6 +1,6 @@
-from app import create_app
-import os
+import app.server.start as app
+from os import environ
+
 if __name__ == '__main__':
-    server = create_app()
-    port = int(os.environ.get("PORT", 5000))
-    server.run(host='0.0.0.0', port=port)
+    port = int(environ.get("PORT", 5000))
+    app.instance.run(host='0.0.0.0', port=port)
