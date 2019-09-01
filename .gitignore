@@ -1,6 +1,6 @@
-/camporota
 .vscode
 __pycache__
 .pytest_cache
 .env
+.DS_Store
 docker-heroku-commands

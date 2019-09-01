@@ -10,6 +10,10 @@ pytest = "==5.0.1"
 python-dotenv = "==0.10.3"
 Flask = "==1.1.1"
 flask-cors = "*"
+psycopg2 = "*"
+sqlalchemy-aio = "*"
+sqlalchemy-migrate = "*"
+pytest-asyncio = "*"
 
 [requires]
 python_version = "3.7"
