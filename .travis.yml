@@ -5,6 +5,7 @@ python:
   - "3.7.1"
 services:
   - docker
+  - postgresql
 before_install:
   - wget -qO- https://toolbelt.heroku.com/install.sh | sh
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
@@ -15,7 +16,6 @@ install:
   
 before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
-  - 
 
 script: 
   - pytest
