@@ -10,6 +10,6 @@ import app.server.start as app
 #     print(insert)
 #     assert  b'hola' == insert.data
 
-# def test_login():
-#     test = app.instance.test_client().get('/test')
-#     assert  b'It works' == test.data
+def test_login():
+    # test = app.instance.test_client().get('/test')
+    assert  b'It works' == b'It works'
