@@ -8,13 +8,13 @@ from app.db import DatabaseConnection
 instance = Flask(__name__)
 CORS(instance)
 
-@instance.route('/')
+@instance.route('/api')
 def hello_wold():
     con = DatabaseConnection()
     users = asyncio.run(con.select("SELECT * FROM users"))
     return jsonify({'users': users})
 
-@instance.route('/create')
+@instance.route('/api/create')
 def insert_user():
     con = DatabaseConnection()
     query = "INSERT INTO users (first_name, last_name, email, password) VALUES (:first_name, :last_name, :email, :password)"
