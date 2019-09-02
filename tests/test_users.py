@@ -17,4 +17,4 @@ def test_all_users():
         }
     ]
     users = app.instance.test_client().get('/api')
-    assert  all_users == json.loads(users.data)['users']
+    assert  all_users == json.loads(users.data)['users'] 
