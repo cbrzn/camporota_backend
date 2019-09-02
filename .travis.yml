@@ -16,6 +16,7 @@ install:
   
 before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
+  - python migrations/manage.py version_control postgres://postgres@127.0.0.1:5432/travis_ci_test migrations
   - python migrations/manage.py upgrade
 
 script: 
