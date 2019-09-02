@@ -1,5 +1,7 @@
-import app.server.start as app
 from os import environ
+
+import api.server.start as app
+import api.db as database
 
 if __name__ == '__main__':
     port = int(environ.get("PORT", 5000))
