@@ -10,11 +10,10 @@ from api.server.start import app
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
-db_uri = environ.get("DATABASE_URL")
 
 class Connection():
     def __init__(self):
-        self.engine = create_engine(db_uri, strategy=ASYNCIO_STRATEGY)
+        self.engine = create_engine(environ.get("DATABASE_URL"), strategy=ASYNCIO_STRATEGY)
 
     async def select(self, query, **kwargs):
         async with self.engine.connect() as conn:
