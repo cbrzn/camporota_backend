@@ -2,7 +2,7 @@ import asyncio
 from flask import jsonify
 from flask_restful import Resource
 
-from api.models.User import User
+from api.models.user import User
 
 class Users(Resource):
     # @app.route('/')
