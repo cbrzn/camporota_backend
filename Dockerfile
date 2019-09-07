@@ -4,4 +4,4 @@ WORKDIR /app
 RUN pip install pipenv \ 
     && pipenv install --system --deploy --ignore-pipfile
 ENTRYPOINT ["python"]
-CMD ["main.py"]
+CMD ["app.py"]
