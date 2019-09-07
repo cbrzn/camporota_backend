@@ -1,5 +1,7 @@
 import asyncio
 
+from passlib.hash import pbkdf2_sha256
+
 from api.db.Connection import db, Connection
 
 class User(db.Model):
@@ -11,9 +13,27 @@ class User(db.Model):
     password = db.Column(db.String, nullable=False)
 
     @classmethod
-    def get_user(cls, email):
+    def find(cls, email):
         con = Connection()
         query = "SELECT * FROM users WHERE email = :email"
         params = dict(email=email)
         user = asyncio.run(con.select(query, **params))
         return user
+
+    @classmethod
+    def create(cls, **params):
+        con = Connection()
+        query = "INSERT INTO users (first_name, last_name, email, password) VALUES (:first_name, :last_name, :email, :password)"
+        success = asyncio.run(con.commit(query, **params))
+        return success
+
+    @classmethod
+    def login(cls, **params):
+        con = Connection()
+        get_hash_query = "SELECT * FROM users WHERE email = :email"
+        user = asyncio.run(con.select(get_hash_query, **params))
+        if pbkdf2_sha256.verify(params['password'], user[0]['password']):
+            del user[0]['password']
+            return user
+
+        return None

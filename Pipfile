@@ -16,6 +16,7 @@ pytest-asyncio = "*"
 flask-restful = "*"
 flask-sqlalchemy = "*"
 flask-migrate = "*"
+passlib = "*"
 
 [requires]
 python_version = "3.7"
