@@ -2,10 +2,10 @@ from os import environ
 
 from flask import Flask
 from flask_cors import CORS
-from flask_sqlalchemy import SQLAlchemy
+from flask_restful import Api
 
-instance = Flask(__name__)
-instance.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DATABASE_URL')
-instance.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(instance)
-CORS(instance)
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DATABASE_URL')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+api = Api(app, prefix='/api')
+CORS(app)
