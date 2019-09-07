@@ -1,7 +1,6 @@
 from os import environ
 
 import api.server.start as api
-import api.db as database
 
 app = api.app
 
