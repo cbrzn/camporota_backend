@@ -17,6 +17,7 @@ flask-restful = "*"
 flask-sqlalchemy = "*"
 flask-migrate = "*"
 passlib = "*"
+pytest-mock = "*"
 
 [requires]
 python_version = "3.7"
