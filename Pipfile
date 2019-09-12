@@ -18,6 +18,7 @@ flask-sqlalchemy = "*"
 flask-migrate = "*"
 passlib = "*"
 pytest-mock = "*"
+pytest-dotenv = "*"
 
 [requires]
 python_version = "3.7"

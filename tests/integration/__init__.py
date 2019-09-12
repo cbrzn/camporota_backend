@@ -9,8 +9,8 @@ from api.db.Connection import db, Connection
 def app(request):
     app_test = instance.app
     app_test.config['TESTING'] = True
-    app_test.config['SQLALCHEMY_DATABASE_URI'] = environ.get('TEST_DATABASE_URL', "postgresql://postgres:cesar420@localhost/travis_ci_test")
-    environ['DATABASE_URL'] = environ.get('TEST_DATABASE_URL', "postgresql://postgres:cesar420@localhost/travis_ci_test")
+    app_test.config['SQLALCHEMY_DATABASE_URI'] = environ.get('TEST_DATABASE_URL')
+    environ['DATABASE_URL'] = environ.get('TEST_DATABASE_URL')
 
     ctx = app_test.app_context()
     ctx.push()
