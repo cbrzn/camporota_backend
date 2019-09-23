@@ -22,6 +22,14 @@ _user_parser.add_argument(
 _user_parser.add_argument(
     "password", type=str, required=True, help="This field cannot be blank."
 )
+_user_parser.add_argument(
+    "phone", type=str, required=False, help="This field cannot be blank."
+)
+_user_parser.add_argument(
+    "admin", type=bool, required=False
+)
+
+
 
 class Users(Resource):
     def get(self, email):
@@ -45,7 +53,7 @@ class Authentication(Resource):
         data = _user_parser.parse_args()
         try:
             user = User.login(**data)
-            access_token = create_access_token(identity = user['email'], admin = user['admin'])
+            access_token = create_access_token(identity = user['email'])
             return jsonify({ "user": user, 'access_token': access_token })
         except BaseException as e:
             print(e)

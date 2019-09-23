@@ -11,7 +11,7 @@ def test_find(mocked_db):
     assert None == json.loads(request.data)['user']
 
 def test_create(mocked_db):
-    body = dict(first_name="Cesar", last_name="Brazon", email="cesarbrazon10@gmail.com", password="hey")
+    body = dict(first_name="Cesar", last_name="Brazon", email="cesarbrazon10@gmail.com", password="hey", phone="123456789")
     json_body = json.dumps(body)
     request = mocked_db.app.test_client().post(
         '/api/user',
@@ -24,7 +24,9 @@ def test_login(mocked_db):
     user = {
         "email": "cesarbrazon10@gmail.com", 
         "first_name": "Cesar", 
-        "last_name": "Brazon"
+        "last_name": "Brazon",
+        "phone":"123456789",
+        "admin": False
     }
     body = dict(email="cesarbrazon10@gmail.com", password="hey")
     json_body = json.dumps(body)
@@ -33,6 +35,7 @@ def test_login(mocked_db):
         data=json_body,
         content_type='application/json'
     )
+    print(json.loads(request.data))
     assert user == json.loads(request.data)['user']
     assert type(json.loads(request.data)['access_token']) is str
 

@@ -11,6 +11,8 @@ class User(db.Model):
     first_name = db.Column(db.String, nullable=False)
     last_name = db.Column(db.String, nullable=False)
     password = db.Column(db.String, nullable=False)
+    admin = db.Column(db.Boolean, default=False)
+    phone = db.Column(db.String, nullable=False)
 
     @classmethod
     def find(cls, email):
@@ -23,7 +25,10 @@ class User(db.Model):
     @classmethod
     def create(cls, **params):
         con = Connection()
-        query = "INSERT INTO users (first_name, last_name, email, password) VALUES (:first_name, :last_name, :email, :password)"
+        admin = True if params.get('admin') else False
+        params['admin'] = admin
+        print(params)
+        query = "INSERT INTO users (first_name, last_name, email, password, phone, admin) VALUES (:first_name, :last_name, :email, :password, :phone, :admin)"
         success = asyncio.run(con.commit(query, **params))
         return success
 
