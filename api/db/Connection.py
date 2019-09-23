@@ -13,7 +13,6 @@ migrate = Migrate(app, db)
 
 class Connection():
     def __init__(self):
-        print(environ.get('TEST_DATABASE_URL'))
         self.engine = create_engine(environ.get("DATABASE_URL"), strategy=ASYNCIO_STRATEGY)
 
     async def select(self, query, **kwargs):

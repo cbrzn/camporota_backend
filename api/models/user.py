@@ -34,6 +34,6 @@ class User(db.Model):
         user = asyncio.run(con.select(get_hash_query, **params))
         if pbkdf2_sha256.verify(params['password'], user[0]['password']):
             del user[0]['password']
-            return user
+            return user[0]
 
         return None

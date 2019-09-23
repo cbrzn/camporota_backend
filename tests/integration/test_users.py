@@ -34,6 +34,7 @@ def test_login(mocked_db):
         content_type='application/json'
     )
     assert user == json.loads(request.data)['user']
+    assert type(json.loads(request.data)['access_token']) is str
 
 def test_bad_login(mocked_db):
     body = dict(email="test@gmail.com", password="bad")
