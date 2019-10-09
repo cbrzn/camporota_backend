@@ -20,6 +20,7 @@ passlib = "*"
 pytest-mock = "*"
 pytest-dotenv = "*"
 flask-jwt-extended = "*"
+algoliasearch = "*"
 
 [requires]
 python_version = "3.7"

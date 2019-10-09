@@ -3,33 +3,17 @@ import asyncio
 from flask import jsonify
 from flask_restful import Resource, reqparse
 from passlib.hash import pbkdf2_sha256
-from flask_jwt_extended import (create_access_token, 
-    create_refresh_token, jwt_required, jwt_refresh_token_required, 
-    get_jwt_identity, get_raw_jwt)
+from flask_jwt_extended import create_access_token
 
 from api.models.user import User
 
 _user_parser = reqparse.RequestParser()
-_user_parser.add_argument(
-    "email", type=str, required=True, help="This field cannot be blank."
-)
-_user_parser.add_argument(
-    "first_name", type=str, required=False, help="This field cannot be blank."
-)
-_user_parser.add_argument(
-    "last_name", type=str, required=False, help="This field cannot be blank."
-)
-_user_parser.add_argument(
-    "password", type=str, required=True, help="This field cannot be blank."
-)
-_user_parser.add_argument(
-    "phone", type=str, required=False, help="This field cannot be blank."
-)
-_user_parser.add_argument(
-    "admin", type=bool, required=False
-)
-
-
+_user_parser.add_argument("email", type=str, required=True)
+_user_parser.add_argument("first_name", type=str, required=False)
+_user_parser.add_argument("last_name", type=str, required=False)
+_user_parser.add_argument("password", type=str, required=True)
+_user_parser.add_argument("phone", type=str, required=False)
+_user_parser.add_argument("admin", type=bool, required=False)
 
 class Users(Resource):
     def get(self, email):

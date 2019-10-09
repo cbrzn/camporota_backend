@@ -27,7 +27,6 @@ class User(db.Model):
         con = Connection()
         admin = True if params.get('admin') else False
         params['admin'] = admin
-        print(params)
         query = "INSERT INTO users (first_name, last_name, email, password, phone, admin) VALUES (:first_name, :last_name, :email, :password, :phone, :admin)"
         success = asyncio.run(con.commit(query, **params))
         return success

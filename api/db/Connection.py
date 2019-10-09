@@ -18,7 +18,7 @@ class Connection():
     async def select(self, query, **kwargs):
         async with self.engine.connect() as conn:
             async with conn.begin():
-                result_object = await conn.execute(text(query), **kwargs)
+                result_object = await conn.execute(text(query), kwargs)
                 result = await result_object.fetchall()
                 return [dict(row) for row in result]
 
@@ -26,8 +26,12 @@ class Connection():
         try:
             async with self.engine.connect() as conn:
                 async with conn.begin():
-                    await conn.execute(text(query), kwargs)
-                    return True
+                    result_object = await conn.execute(text(query), kwargs)
+                    try:
+                        result = await result_object.fetchall()
+                        return result[0]
+                    except BaseException as e: 
+                        return True
         except BaseException as e:
             print(e)
             return False
