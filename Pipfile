@@ -21,6 +21,7 @@ pytest-mock = "*"
 pytest-dotenv = "*"
 flask-jwt-extended = "*"
 algoliasearch = "*"
+cloudinary = "*"
 
 [requires]
 python_version = "3.7"

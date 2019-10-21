@@ -1,7 +1,7 @@
 import asyncio
 import uuid
 
-from flask import jsonify
+from flask import jsonify, request
 from flask_restful import Resource, reqparse
 
 from api.models.property import Property
@@ -26,7 +26,8 @@ class Properties(Resource):
 
     def post(self):
         data = _property_parser.parse_args()
-        create = Property.create(**data)
+        files = request.files.getlist('files[]')
+        create = Property.create(files=files, **data)
         return jsonify({ 'success': create })
 
     def put(self):
