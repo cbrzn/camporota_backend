@@ -19,6 +19,7 @@ mock_property =  {
 def test_create_property(mocked_db, mocker):
     json_body = json.dumps(mock_property)
     mocker.patch('api.models.property.create_or_update_property', return_value=True)
+    mocker.patch('api.models.property.upload_images', return_value=[{'url':'first/path.jpg'}, {'url':'second/path.jpg'}])
     request = mocked_db.app.test_client().post(
         'api/properties',
         data=json_body,
