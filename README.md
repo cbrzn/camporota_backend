@@ -17,7 +17,7 @@ python app.py
 Add a `.env` file in the root of the project and paste this:
 ```
 FLASK_ENV=development
-DATABASE_URL=postgres://vczqpoxvzftnfn:c56ef4f4653753b8132867c4f5330d9bbc0693875952a735e7c0ddca72e3a6c2@ec2-54-228-246-214.eu-west-1.compute.amazonaws.com:5432/d2mktdfobkr16q
+DATABASE_URL=
 ```
 ## Or you can just use the docker container
 ```
