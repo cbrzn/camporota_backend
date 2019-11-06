@@ -39,10 +39,12 @@ class Property(db.Model):
                 price=row.get('price'),
                 state=row.get('state'),
                 sale=row.get('sale'),
-                property_id=row.get('property_id')
+                property_id=row.get('objectID'),
+                images=Property.images(row.get('objectID'))
             )
 
         return [define_list(row) for row in properties]
+
 
     @classmethod
     def create(cls, files=None, **params):
@@ -64,6 +66,12 @@ class Property(db.Model):
             print(e)
             return False
 
+    @classmethod
+    def images(cls, property_id):
+        con = Connection()
+        query = 'SELECT images.path FROM properties INNER JOIN images ON images.property_id = properties.property_id WHERE properties.property_id = :id'
+        images = asyncio.run(con.select(query, **dict(id=property_id)))
+        return images
 
 class Image(db.Model):
     __tablename__ = "images"

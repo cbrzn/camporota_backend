@@ -3,6 +3,7 @@ import uuid
 
 from flask import jsonify, request
 from flask_restful import Resource, reqparse
+from flask_jwt_extended import jwt_required
 
 from api.models.property import Property
 
@@ -24,14 +25,17 @@ class Properties(Resource):
         properties = Property.search(params)
         return properties
 
+    @jwt_required
     def post(self):
         data = _property_parser.parse_args()
         files = request.files.getlist('files[]')
         create = Property.create(files=files, **data)
         return jsonify({ 'success': create })
 
+    @jwt_required
     def put(self):
         pass
 
+    @jwt_required
     def delete(self):
         pass
