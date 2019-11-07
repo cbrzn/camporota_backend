@@ -1,6 +1,7 @@
 import json
 
 import pytest
+from flask_jwt_extended import create_access_token
 
 import api.server.start as app
 from tests.integration import app, mocked_db
@@ -49,6 +50,16 @@ def test_bad_login(mocked_db):
         content_type='application/json'
     )
     assert None == json.loads(request.data)['user']
+
+def test_logout(mocked_db):
+    access_token = create_access_token('test2@gmail.cmom')
+    request = mocked_db.app.test_client().delete(
+        'api/logout',
+        headers = {
+            "Authorization": f"Bearer {access_token}"
+        }
+    )
+    assert True == json.loads(request.data)['success']
 
 
 
