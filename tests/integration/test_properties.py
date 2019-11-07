@@ -19,7 +19,7 @@ mock_property =  {
 
 def test_create_property(mocked_db, mocker):
     json_body = json.dumps(mock_property)
-    access_token = create_access_token('test@gmail.cmom')
+    access_token = create_access_token('test@gmail.com')
     mocker.patch('api.models.property.create_or_update_property', return_value=True)
     mocker.patch('api.models.property.upload_images', return_value=[{'url':'first/path.jpg'}, {'url':'second/path.jpg'}])
     request = mocked_db.app.test_client().post(
@@ -40,6 +40,22 @@ def test_search_property(mocked_db, mocker):
     request = mocked_db.app.test_client().get('/api/properties')
     del value['hits'][0]['objectID']
     assert json.loads(request.data)[0] == mock_property
+
+# def test_update_property(mocked_db, mocker):
+#     json_body = json.dumps(dict(property_id='ca1ea042-e5db-4746-b453-4a39b832b7fe', title="new title"))
+#     access_token = create_access_token('test@gmail.com')
+#     mocker.patch('api.models.property.create_or_update_property', return_value=True)
+#     request = mocked_db.app.test_client().put(
+#         'api/properties',
+#         data=json_body,
+#         content_type='application/json',
+#         headers = {
+#             "Authorization": f"Bearer {access_token}"
+#         }
+#     )
+#     print(request.data)
+#     assert True == json.loads(request.data)['success']
+
 
 def test_delete_property(mocked_db, mocker):
     mocker.patch('api.models.property.delete_property', return_value=True)

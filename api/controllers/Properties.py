@@ -34,7 +34,10 @@ class Properties(Resource):
 
     @jwt_required
     def put(self):
-        pass
+        data = _property_parser.parse_args()
+        files = request.files.getlist('files[]')
+        update = Property.update(files=files, **data)
+        return jsonify({ 'success': update })
 
     @jwt_required
     def delete(self):

@@ -73,14 +73,38 @@ class Property(db.Model):
             delete_property(property_id)
             delete_property_query = 'DELETE FROM properties WHERE property_id = :property_id'
             is_deleted = asyncio.run(con.commit(delete_property_query, **dict(property_id=property_id)))
-            return True
+            return is_deleted
         except:
             return False
         
 
     @classmethod
     def update(cls, files=None, **params):
-        pass
+        try:
+            con = Connection()
+            select_property_query = 'SELECT * FROM properties WHERE property_id = :property_id'
+            property_attributes = asyncio.run(con.select(select_property_query, **params))[0]
+            new_attributes = dict()
+            title = property_attributes['title']
+            description = property_attributes['description']
+            kind = property_attributes['kind']
+            price = property_attributes['price']
+            state = property_attributes['state']
+            sale = property_attributes['sale']
+            new_attributes['title'] = title if params['title'] == title or params['title'] == None else params['title']
+            new_attributes['description'] = description if params['description'] == description or params['description'] == None else params['description']
+            new_attributes['kind'] = kind if params['kind'] == kind or params['kind'] == None else params['kind']
+            new_attributes['price'] = price if params['price'] == price or params['price'] == None else params['price']
+            new_attributes['state'] = state if params['state'] == state or params['state'] == None else params['state']
+            new_attributes['sale'] = sale if params['sale'] == sale or params['sale'] == None else params['sale']
+            new_attributes['objectID'] = params['property_id']
+            create_or_update_property(**new_attributes)
+            update_property_query = 'UPDATE properties SET title = :title, description = :description, kind = :kind, price = :price, state = :state, sale = :sale WHERE property_id = :objectID'
+            updated = asyncio.run(con.commit(update_property_query, **new_attributes))
+            return updated
+        except Exception as e:
+            print(e)
+            return False
 
     @classmethod
     def images(cls, property_id):
