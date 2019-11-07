@@ -1,7 +1,9 @@
 import asyncio
 
 from passlib.hash import pbkdf2_sha256
+from flask_jwt_extended import get_raw_jwt
 
+from api.server.start import jwt
 from api.db.Connection import db, Connection
 
 class User(db.Model):
@@ -41,3 +43,25 @@ class User(db.Model):
             return user[0]
 
         return None
+
+class Blacklist(db.Model):
+    __tablename__ = "blacklist_tokens"
+    token = db.Column(db.String, nullable=False, primary_key=True)
+
+    @jwt.token_in_blacklist_loader
+    def check_if_token_in_blacklist(decrypted_token):
+        jti = decrypted_token['jti']
+        con = Connection()
+        check_token_query = 'SELECT * FROM blacklist_tokens WHERE token=:token'
+        token_blacklisted = asyncio.run(con.select(check_token_query, **dict(token=jti)))
+        return len(token_blacklisted) > 0
+
+    def insert_token():
+        try:
+            con = Connection()
+            jti = get_raw_jwt()['jti']
+            insert_token_query = 'INSERT INTO blacklist_tokens (token) VALUES (:token)'
+            logout = asyncio.run(con.commit(insert_token_query, **dict(token=jti)))
+            return True
+        except:
+            return False

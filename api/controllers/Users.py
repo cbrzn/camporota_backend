@@ -3,9 +3,11 @@ import asyncio
 from flask import jsonify
 from flask_restful import Resource, reqparse
 from passlib.hash import pbkdf2_sha256
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, jwt_required
 
-from api.models.user import User
+from api.db.Connection import db, Connection
+from api.models.user import User, Blacklist
+
 
 _user_parser = reqparse.RequestParser()
 _user_parser.add_argument("email", type=str, required=True)
@@ -42,3 +44,8 @@ class Authentication(Resource):
         except BaseException as e:
             print(e)
             return jsonify({ "user": None })
+
+    @jwt_required
+    def delete(self):
+        logged_out = Blacklist.insert_token()
+        return jsonify({ "success": logged_out })
