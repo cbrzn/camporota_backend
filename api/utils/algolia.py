@@ -16,3 +16,7 @@ def search_property(params):
 def create_or_update_property(**params):
     properties = client.init_index('properties')
     properties.save_object(params)
+
+def delete_property(property_id):
+    properties = client.init_index('properties')
+    properties.delete_object(property_id)

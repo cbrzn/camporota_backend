@@ -38,4 +38,7 @@ class Properties(Resource):
 
     @jwt_required
     def delete(self):
-        pass
+        data = _property_parser.parse_args()
+        is_deleted = Property.delete(data["property_id"])
+        return jsonify({ 'success': is_deleted })
+            

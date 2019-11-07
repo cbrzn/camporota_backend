@@ -4,10 +4,10 @@ from uuid import uuid4
 
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql import func
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 
 from api.db.Connection import db, Connection
-from api.utils.algolia import create_or_update_property, search_property
+from api.utils.algolia import create_or_update_property, search_property, delete_property
 from api.utils.cloudinary import upload_images
 
 
@@ -67,6 +67,22 @@ class Property(db.Model):
             return False
 
     @classmethod
+    def delete(cls, property_id):
+        try:
+            con = Connection()
+            delete_property(property_id)
+            delete_property_query = 'DELETE FROM properties WHERE property_id = :property_id'
+            is_deleted = asyncio.run(con.commit(delete_property_query, **dict(property_id=property_id)))
+            return True
+        except:
+            return False
+        
+
+    @classmethod
+    def update(cls, files=None, **params):
+        pass
+
+    @classmethod
     def images(cls, property_id):
         con = Connection()
         query = 'SELECT images.path FROM properties INNER JOIN images ON images.property_id = properties.property_id WHERE properties.property_id = :id'
@@ -79,5 +95,5 @@ class Image(db.Model):
     image_id = db.Column(db.Integer, primary_key=True)
     path = db.Column(db.String, nullable=False)
     property_id = db.Column(
-        UUID(as_uuid=True), db.ForeignKey("properties.property_id"))
-    image_property = relationship("Property")
+        UUID(as_uuid=True), db.ForeignKey("properties.property_id", ondelete="CASCADE"))
+    image_property = relationship("Property", backref=backref('image', passive_deletes=True))

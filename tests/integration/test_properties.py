@@ -40,3 +40,14 @@ def test_search_property(mocked_db, mocker):
     request = mocked_db.app.test_client().get('/api/properties')
     del value['hits'][0]['objectID']
     assert json.loads(request.data)[0] == mock_property
+
+def test_delete_property(mocked_db, mocker):
+    mocker.patch('api.models.property.delete_property', return_value=True)
+    access_token = create_access_token('test@gmail.cmom')
+    request = mocked_db.app.test_client().delete(
+        'api/properties?property_id=ca1ea042-e5db-4746-b453-4a39b832b7fe',
+        headers = {
+            "Authorization": f"Bearer {access_token}"
+        }
+    )
+    assert True == json.loads(request.data)['success']
