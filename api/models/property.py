@@ -22,14 +22,15 @@ class Property(db.Model):
     price = db.Column(db.Integer, nullable=False)
     state = db.Column(db.String, nullable=False)
     sale = db.Column(db.Boolean, nullable=False)
+    # room = db.Column(db.Integer, nullable=True)
+    # bathroom = db.Column(db.Integer, nullable=True)
     time_created = db.Column(db.DateTime(
         timezone=True), server_default=func.now())
     time_updated = db.Column(db.DateTime(timezone=True), onupdate=func.now())
 
     @classmethod
-    def search(cls, params):
-        params = ', '.join(params) if type(params) == list else params
-        properties = search_property(params)['hits']
+    def search(cls, location, kind, price_min, price_max, sale):
+        properties = search_property(location, kind, price_min, price_max, sale)['hits']
 
         def define_list(row):
             return dict(
@@ -39,6 +40,8 @@ class Property(db.Model):
                 price=row.get('price'),
                 state=row.get('state'),
                 sale=row.get('sale'),
+                # bathroom=row.get('bathroom'),
+                # room=row.get('room'),
                 property_id=row.get('objectID'),
                 images=Property.images(row.get('objectID'))
             )
@@ -91,12 +94,16 @@ class Property(db.Model):
             price = property_attributes['price']
             state = property_attributes['state']
             sale = property_attributes['sale']
+            # room = property_attributes['room']
+            # bathroom = property_attributes['bathroom']
             new_attributes['title'] = title if params['title'] == title or params['title'] == None else params['title']
             new_attributes['description'] = description if params['description'] == description or params['description'] == None else params['description']
             new_attributes['kind'] = kind if params['kind'] == kind or params['kind'] == None else params['kind']
             new_attributes['price'] = price if params['price'] == price or params['price'] == None else params['price']
             new_attributes['state'] = state if params['state'] == state or params['state'] == None else params['state']
             new_attributes['sale'] = sale if params['sale'] == sale or params['sale'] == None else params['sale']
+            # new_attributes['room'] = room if params['room'] == room or params['room'] == None else params['room']
+            # new_attributes['bathroom'] = bathroom if params['bathroom'] == bathroom or params['bathroom'] == None else params['bathroom']
             new_attributes['objectID'] = params['property_id']
             create_or_update_property(**new_attributes)
             update_property_query = 'UPDATE properties SET title = :title, description = :description, kind = :kind, price = :price, state = :state, sale = :sale WHERE property_id = :objectID'

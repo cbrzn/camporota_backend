@@ -14,15 +14,25 @@ _property_parser.add_argument("title", type=str, required=False)
 _property_parser.add_argument("description", type=str, required=False)
 _property_parser.add_argument("kind", type=str, required=False)
 _property_parser.add_argument("price", type=int, required=False)
+# _property_parser.add_argument("rooms", required=False)
+# _property_parser.add_argument("bathrooms", required=False)
 _property_parser.add_argument("state", type=str, required=False)
-_property_parser.add_argument("sale", type=bool, required=False)
-_property_parser.add_argument("params", required=False)
+
+_property_parser.add_argument("sale", required=False)
+_property_parser.add_argument("location", required=False)
+_property_parser.add_argument("price_min", required=False)
+_property_parser.add_argument("price_max", required=False)
+_property_parser.add_argument("type", required=False)
 
 class Properties(Resource):
     def get(self):
         data = _property_parser.parse_args()
-        params = '' if data["params"] == None else data["params"]
-        properties = Property.search(params)
+        location = None if data["location"] == None else data["location"]
+        kind = None if data["type"] == None else data["type"]
+        price_min = None if data["price_min"] == None else data["price_min"]
+        price_max = None if data["price_max"] == None else data["price_max"]
+        sale = None if data["sale"] == None else data["sale"]
+        properties = Property.search(location, kind, price_min, price_max, sale)
         return properties
 
     @jwt_required
