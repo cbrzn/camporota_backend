@@ -11,6 +11,10 @@ client = SearchClient.create(ALGOLIA_APP_ID, ALGOLIA_API_KEY)
 
 def search_property(params):
     properties = client.init_index('properties')
+    if "Comprar" in params:
+        params.replace("Comprar", "true")
+    else:
+        params.replace("Alquilar", "false")
     return properties.search(params)
 
 def create_or_update_property(**params):
