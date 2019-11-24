@@ -32,10 +32,10 @@ def search_property(location, kind, price_min, price_max, sale):
         is_sale = 1 if sale == 'true' else 0
         add_filter(f"sale={is_sale}")
 
-    if location != None:
+    if location != None and location != 'null':
         params += location
 
-    if kind != None:
+    if kind != None and kind != 'null':
         params += f' {kind}'
 
     return properties.search(params, filter_params)
