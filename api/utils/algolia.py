@@ -13,7 +13,6 @@ def search_property(location, kind, price_min, price_max, sale):
     properties = client.init_index('properties')
     filter_params = dict()
     params = ''
-
     def add_filter(new_filter):
         filters = filter_params.get('filters')
         if filters == None:
@@ -41,6 +40,7 @@ def search_property(location, kind, price_min, price_max, sale):
     return properties.search(params, filter_params)
 
 def create_or_update_property(**params):
+    params['sale'] == True if sale == 'true' else False
     properties = client.init_index('properties')
     properties.save_object(params)
 
