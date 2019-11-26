@@ -41,7 +41,7 @@ def search_property(location, kind, price_min, price_max, sale):
 
 def create_or_update_property(**params):
     if type(params['sale']) == str:
-        params['sale'] == True if params['sale'] == 'true' else False
+        params['sale'] = True if params['sale'] == 'true' else False
 
     properties = client.init_index('properties')
     properties.save_object(params)
