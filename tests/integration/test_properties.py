@@ -14,7 +14,21 @@ mock_property =  {
     "price": 45,
     "state": "Maracaibo",
     "sale": True,
-    "property_id": 'ca1ea042-e5db-4746-b453-4a39b832b7fe'
+    "property_id": 'ca1ea042-e5db-4746-b453-4a39b832b7fe',
+    "rooms": 1,
+    "bathrooms": 1,
+    "address": "Calle Adrada de Haza",
+    "square_meters": 100,
+    "heating": True,
+    "community_fees": 100,
+    "orientation": "Ni idea",
+    "furnished": True,
+    "equipped_kitchen": False,
+    "floor_number": "Bajo",
+    "common_zones": "Muchas",
+    "pets": True,
+    "contract_time": "1 ano",
+    "bond": "2 meses"
 }
 
 def test_create_property(mocked_db, mocker):

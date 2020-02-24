@@ -9,7 +9,7 @@ ALGOLIA_API_KEY = environ.get('ALGOLIA_API_KEY')
 
 client = SearchClient.create(ALGOLIA_APP_ID, ALGOLIA_API_KEY)
 
-def search_property(location, kind, price_min, price_max, sale, address, bathrooms, rooms):
+def search_property(location, kind, price_min, price_max, sale, address, bathrooms, rooms, furnished):
     properties = client.init_index('properties')
     filter_params = dict()
     params = ''
@@ -30,6 +30,10 @@ def search_property(location, kind, price_min, price_max, sale, address, bathroo
     if sale != None:
         is_sale = 1 if sale == 'true' else 0
         add_filter(f"sale={is_sale}")
+
+    if furnished != None:
+        has_furnish = 1 if furnished == 'true' else 0
+        add_filter(f"furnished={has_furnish}")
 
     if location != None and location != 'null':
         add_filter(f"location: {location}")

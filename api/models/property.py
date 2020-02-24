@@ -23,29 +23,29 @@ class Property(db.Model):
     state = db.Column(db.String, nullable=False)
     sale = db.Column(db.Boolean, nullable=False)
 
-    rooms = db.Column(db.Integer, nullable=False)
-    bathrooms = db.Column(db.Integer, nullable=False)
+    rooms = db.Column(db.Integer, nullable=True)
+    bathrooms = db.Column(db.Integer, nullable=True)
     address = db.Column(db.String, nullable=True)
-    square_meters = db.Column(db.Integer, nullable=False)
-    heating = db.Column(db.Boolean, nullable=False)
-    community_fees = db.Column(db.Integer, nullable=False)
-    orientation = db.Column(db.String, nullable=False)
-    furnished = db.Column(db.Boolean, nullable=False)
-    equipped_kitchen = db.Column(db.Boolean, nullable=False)
-    floor_number = db.Column(db.Integer, nullable=False)
-    common_zones = db.Column(db.String, nullable=False)
-    pets = db.Column(db.Boolean, nullable=False)
-    contract_time = db.Column(db.String, nullable=False)
-    bond = db.Column(db.String, nullable=False)
+    square_meters = db.Column(db.Integer, nullable=True)
+    heating = db.Column(db.Boolean, nullable=True)
+    community_fees = db.Column(db.String, nullable=True)
+    orientation = db.Column(db.String, nullable=True)
+    furnished = db.Column(db.Boolean, nullable=True)
+    equipped_kitchen = db.Column(db.Boolean, nullable=True)
+    floor_number = db.Column(db.String, nullable=True)
+    common_zones = db.Column(db.String, nullable=True)
+    pets = db.Column(db.Boolean, nullable=True)
+    contract_time = db.Column(db.String, nullable=True)
+    bond = db.Column(db.String, nullable=True)
 
     time_created = db.Column(db.DateTime(
         timezone=True), server_default=func.now())
     time_updated = db.Column(db.DateTime(timezone=True), onupdate=func.now())
 
     @classmethod
-    def search(cls, location, kind, price_min, price_max, sale):
+    def search(cls, location, kind, price_min, price_max, sale, address, bathrooms, rooms, furnished):
         properties = search_property(
-            location, kind, price_min, price_max, sale)['hits']
+            location, kind, price_min, price_max, sale, address, bathrooms, rooms, furnished)['hits']
 
         def define_list(row):
             return dict(
