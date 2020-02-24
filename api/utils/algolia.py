@@ -9,7 +9,7 @@ ALGOLIA_API_KEY = environ.get('ALGOLIA_API_KEY')
 
 client = SearchClient.create(ALGOLIA_APP_ID, ALGOLIA_API_KEY)
 
-def search_property(location, kind, price_min, price_max, sale):
+def search_property(location, kind, price_min, price_max, sale, address, bathrooms, rooms):
     properties = client.init_index('properties')
     filter_params = dict()
     params = ''
@@ -32,7 +32,10 @@ def search_property(location, kind, price_min, price_max, sale):
         add_filter(f"sale={is_sale}")
 
     if location != None and location != 'null':
-        params += location
+        add_filter(f"location: {location}")
+
+    if address != None and address != 'null':
+        params += address
 
     if kind != None and kind != 'null':
         params += f' {kind}'
@@ -42,6 +45,18 @@ def search_property(location, kind, price_min, price_max, sale):
 def create_or_update_property(**params):
     if type(params['sale']) == str:
         params['sale'] = True if params['sale'] == 'true' else False
+
+    if type(params['heating']) == str:
+        params['heating'] = True if params['heating'] == 'true' else False
+
+    if type(params['equipped_kitchen']) == str:
+        params['equipped_kitchen'] = True if params['equipped_kitchen'] == 'true' else False
+    
+    if type(params['furnished']) == str:
+        params['furnished'] = True if params['furnished'] == 'true' else False
+
+    if type(params['pets']) == str:
+        params['pets'] = True if params['pets'] == 'true' else False
 
     properties = client.init_index('properties')
     properties.save_object(params)

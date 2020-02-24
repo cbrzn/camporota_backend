@@ -14,10 +14,12 @@ _property_parser.add_argument("title", type=str, required=False)
 _property_parser.add_argument("description", type=str, required=False)
 _property_parser.add_argument("kind", type=str, required=False)
 _property_parser.add_argument("price", type=int, required=False)
-# _property_parser.add_argument("rooms", required=False)
-# _property_parser.add_argument("bathrooms", required=False)
 _property_parser.add_argument("state", type=str, required=False)
 
+_property_parser.add_argument("rooms", required=False)
+_property_parser.add_argument("bathrooms", required=False)
+_property_parser.add_argument("address", required=False)
+_property_parser.add_argument("furnished", required=False)
 _property_parser.add_argument("sale", required=False)
 _property_parser.add_argument("location", required=False)
 _property_parser.add_argument("price_min", required=False)
@@ -32,7 +34,10 @@ class Properties(Resource):
         price_min = None if data["price_min"] == None else data["price_min"]
         price_max = None if data["price_max"] == None else data["price_max"]
         sale = None if data["sale"] == None else data["sale"]
-        properties = Property.search(location, kind, price_min, price_max, sale)
+        address = None if data["address"] == None else data["address"]
+        bathrooms = None if data["bathrooms"] == None else data["bathrooms"]
+        rooms = None if data["rooms"] == None else data["rooms"]
+        properties = Property.search(location, kind, price_min, price_max, sale, address, bathrooms, rooms)
         return properties
 
     @jwt_required
